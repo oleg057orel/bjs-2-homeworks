@@ -81,7 +81,6 @@ function makeWork (arrOfArr, func) {
   } else {
     for (j = 0; j < arrOfArr.length; j++) {
        valueFunction = func(...arrOfArr[j]);
-       console.log(valueFunction);
        if (valueFunction > maxWorkerResult) {
         maxWorkerResult = valueFunction;
        }
