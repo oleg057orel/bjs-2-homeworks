@@ -129,4 +129,44 @@ book.type = "detective";
 console.log(book); // {name: 'Машина времени', releaseDate: 1919, pagesCount: 138, _state: 75, type: 'detective', …}
 library.addBook(book);
 console.log("Количество книг после возврата: " + library.books.length); //Количество книг после выдачи: 4
-console.log("Книга в библиотеке: " + library.findBookBy("releaseDate", 1919).name); //Книга в библиотеке: Машина времени
+console.log("Книга в библиотеке: " + library.findBookBy("releaseDate", 1919).name); //Машина времени
+
+
+// Задача 3
+
+class Student {
+    constructor(name) {
+        this.name = name;
+        this.marks = {};
+    }
+
+    addMark(mark, subject) {
+
+        if (mark < 2 || mark > 5) {
+            return;
+        } else {
+            if (!this.marks.hasOwnProperty(subject)) {
+                this.marks[subject] = [];
+            }
+            this.marks[subject].push(mark);
+        }  
+    }
+
+    getAverageBySubject(subject) {
+
+        if (!this.marks.hasOwnProperty(subject)) {
+            return 0;
+        } else {
+            return this.marks[subject].reduce((acc, mark, index, arr) => acc + mark / arr.length, 0);
+        }
+    }
+
+    getAverage() {
+        if (!this.marks) {
+            return 0;
+        } else { 
+            let subjectAll = Object.keys(this.marks);
+            return subjectAll.reduce((acc, element, index, arr) => acc + this.getAverageBySubject(element) / arr.length, 0);
+        }
+    }
+}
