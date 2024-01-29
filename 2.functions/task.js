@@ -1,90 +1,98 @@
 function getArrayParams(...arr) {
-  
-  const max = Math.max(...arr);
-  const min = Math.min(...arr);
-  const initialValue = 0;
-  let sum = arr.reduce((accumulator, currentValue) => accumulator + currentValue, initialValue);
-  let avg = Number ((sum / arr.length).toFixed(2));
- 
-  return { min: min, max: max, avg: avg };
+  let min = Infinity;
+  let max = -Infinity;
+  let sum = 0;
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] > max) {
+      max = arr[i];
+    }
+    if (arr[i] < min) {
+      min = arr[i];
+    }
+    sum += arr[i];
+  }
+  string => Number;
+  const avg = (sum / arr.length).toFixed(2);
+  return {
+    min: min,
+    max: max,
+    avg: Number(avg)
+  };
 }
 
+console.log(getArrayParams(-99, 99, 10));
+console.log(getArrayParams(1, 2, 3, -100, 10));
+console.log(getArrayParams(5));
+
 function summElementsWorker(...arr) {
-  const initialValue = 0;
-  let sum = arr.reduce((accumulator, currentValue) => accumulator + currentValue, initialValue);
-  
+  if (arr.length === 0) return 0;
+  let sum = 0;
+  for (let i = 0; i < arr.length; i++) {
+    sum += arr[i];
+  }
   return sum;
 }
 
 function differenceMaxMinWorker(...arr) {
-  
-  const max = Math.max(...arr);
-  const min = Math.min(...arr);
-  let differenceMaxMin;
-
-  if (arr.length === 0) {
-    differenceMaxMin = 0;
-  } else {
-    differenceMaxMin = max-min;
+  if (arr.length === 0) return 0;
+  let max = arr[0]
+  let min = arr[0]
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] > max) {
+      max = arr[i];
+    }
+    if (arr[i] < min) {
+      min = arr[i];
+    }
   }
-
-  return differenceMaxMin;
+  return max - min;
 }
 
 function differenceEvenOddWorker(...arr) {
+  if (arr.length === 0) return 0;
   let sumEvenElement = 0;
   let sumOddElement = 0;
-  let differenceEvenOdd;
-
-  if (arr.length === 0) {
-    differenceEvenOdd = 0;
-  } else {
-    for (i = 0; i < arr.length; i++) {
-      if (arr[i]%2 === 0) {
-        sumEvenElement += arr[i];
-      } else {
-        sumOddElement += arr[i];
-      }
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] % 2 === 0) {
+      sumEvenElement += arr[i];
+    } else {
+      sumOddElement += arr[i];
     }
-    differenceEvenOdd = sumEvenElement - sumOddElement;
   }
-
-  return differenceEvenOdd;
+  return sumEvenElement - sumOddElement;
 }
 
 function averageEvenElementsWorker(...arr) {
+  if (arr.length === 0) return 0;
   let sumEvenElement = 0;
   let countEvenElement = 0;
-  let averageEvenElements;
-
-  if (arr.length === 0) {
-    averageEvenElements = 0;
-  } else {
-    for (i = 0; i < arr.length; i++) {
-      if (arr[i]%2 === 0) {
-        sumEvenElement += arr[i];
-        countEvenElement += 1;
-      } 
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] % 2 === 0) {
+      sumEvenElement += arr[i];
+      countEvenElement++;
     }
-    averageEvenElements = Number ((sumEvenElement / countEvenElement).toFixed(2));
   }
-
-  return averageEvenElements;
+  return sumEvenElement / countEvenElement;
 }
 
-function makeWork (arrOfArr, func) {
+function makeWork(arrOfArr, func) {
   let maxWorkerResult = -Infinity;
-  let valueFunction;
-
-  if (arrOfArr.length === 0) {
-    maxWorkerResult = 0;
-  } else {
-    for (j = 0; j < arrOfArr.length; j++) {
-       valueFunction = func(...arrOfArr[j]);
-       if (valueFunction > maxWorkerResult) {
-        maxWorkerResult = valueFunction;
-       }
+  for (let i = 0; i < arrOfArr.length; i++) {
+    const result = func(...arrOfArr[i]);
+    if (result > maxWorkerResult) {
+      maxWorkerResult = result;
     }
   }
   return maxWorkerResult;
 }
+
+const arr = [
+  [10, 10, 11, 20, 10],
+  [67, 10, 2, 39, 88],
+  [72, 75, 51, 87, 43],
+  [30, 41, 55, 96, 62]
+];
+console.log(makeWork(arr, summElementsWorker)); // максимум из 61, 206, 328, 284 => 328
+console.log(makeWork(arr, differenceMaxMinWorker)); // максимум из 10, 86, 44, 66 => 86
+console.log(makeWork(arr, differenceEvenOddWorker)); // максимум из 39, -6, -184, 92 => 92
+console.log(makeWork(arr, averageEvenElementsWorker)); // максимум из 12.5, 33.333, 72, 62.666 => 72
